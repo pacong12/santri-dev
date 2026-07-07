@@ -2,5 +2,21 @@
   "extends": "./tsconfig.base.json",
   "compileOnSave": false,
   "files": [],
-  "references": []
+  "references": [
+    {
+      "path": "./app/backoffice"
+    },
+    {
+      "path": "./app/api"
+    },
+    {
+      "path": "./libs/infrastructure/database"
+    },
+    {
+      "path": "./libs/infrastructure/payment-gateway"
+    },
+    {
+      "path": "./libs/domain/tenant"
+    }
+  ]
 }

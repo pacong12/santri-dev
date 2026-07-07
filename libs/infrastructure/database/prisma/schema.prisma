@@ -1,0 +1,302 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Tenant {
+  id                String         @id @default(uuid())
+  name              String
+  code              String         @unique
+  status            TenantStatus   @default(ACTIVE)
+  phone             String?
+  address           String?
+  gatewayAccountId  String?        @map("gateway_account_id")
+  bankName          String?        @map("bank_name")
+  bankAccountNumber String?        @map("bank_account_number")
+  bankAccountName   String?        @map("bank_account_name")
+  logoUrl           String?        @map("logo_url")
+  emailOfficial     String?        @map("email_official")
+  defaultDueDays    Int            @default(7) @map("default_due_days")
+  createdAt         DateTime       @default(now()) @map("created_at")
+  updatedAt         DateTime       @updatedAt @map("updated_at")
+  deletedAt         DateTime?      @map("deleted_at")
+  memberships       Membership[]
+  tahunAjaran       TahunAjaran[]
+  kelas             Kelas[]
+  santri            Santri[]
+  jenisTagihan      JenisTagihan[]
+  kelasPayment      KelasPayment[]
+  tagihan           Tagihan[]
+  transaksi         Transaksi[]
+  notifikasi        Notifikasi[]
+  riwayatKelas      RiwayatKelas[]
+  auditLogs         AuditLog[]
+
+  @@map("tenants")
+}
+
+enum TenantStatus {
+  ACTIVE
+  SUSPENDED
+  INACTIVE
+}
+
+model User {
+  id           String        @id @default(uuid())
+  username     String        @unique
+  email        String        @unique
+  password     String
+  name         String?
+  platformRole PlatformRole? @map("platform_role")
+  createdAt    DateTime      @default(now()) @map("created_at")
+  updatedAt    DateTime      @updatedAt @map("updated_at")
+  deletedAt    DateTime?     @map("deleted_at")
+  memberships  Membership[]
+  notifikasi   Notifikasi[]
+  auditLogs    AuditLog[]
+
+  @@map("users")
+}
+
+enum PlatformRole {
+  SUPERADMIN
+}
+
+model Membership {
+  id        String     @id @default(uuid())
+  userId    String     @map("user_id")
+  tenantId  String     @map("tenant_id")
+  role      TenantRole @default(SANTRI)
+  createdAt DateTime   @default(now()) @map("created_at")
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, tenantId])
+  @@map("memberships")
+}
+
+enum TenantRole {
+  OWNER
+  ADMIN
+  SANTRI
+}
+
+model TahunAjaran {
+  id        String   @id @default(uuid())
+  tenantId  String   @map("tenant_id")
+  name      String
+  aktif     Boolean  @default(false)
+  createdAt DateTime @default(now()) @map("created_at")
+
+  tenant  Tenant    @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  kelas   Kelas[]
+  tagihan Tagihan[]
+
+  @@map("tahun_ajaran")
+}
+
+model Kelas {
+  id            String   @id @default(uuid())
+  tenantId      String   @map("tenant_id")
+  tahunAjaranId String   @map("tahun_ajaran_id")
+  name          String
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+  deletedAt     DateTime? @map("deleted_at")
+
+  tenant       Tenant         @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  tahunAjaran  TahunAjaran    @relation(fields: [tahunAjaranId], references: [id], onDelete: Cascade)
+  santri       Santri[]
+  kelasPayment KelasPayment[]
+  kelasLama    RiwayatKelas[] @relation("KelasLama")
+  kelasBaru    RiwayatKelas[] @relation("KelasBaru")
+
+  @@map("kelas")
+}
+
+model Santri {
+  id        String   @id @default(uuid())
+  tenantId  String   @map("tenant_id")
+  userId    String?  @map("user_id")
+  kelasId   String   @map("kelas_id")
+  nis       String
+  nama      String
+  namaBapak String?  @map("nama_bapak")
+  namaIbu   String?  @map("nama_ibu")
+  alamat    String?
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
+
+  tenant       Tenant         @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  kelas        Kelas          @relation(fields: [kelasId], references: [id], onDelete: Cascade)
+  tagihan      Tagihan[]
+  transaksi    Transaksi[]
+  riwayatKelas RiwayatKelas[]
+
+  @@unique([tenantId, nis])
+  @@map("santri")
+}
+
+model JenisTagihan {
+  id          String   @id @default(uuid())
+  tenantId    String   @map("tenant_id")
+  name        String
+  description String?
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  tenant       Tenant         @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  kelasPayment KelasPayment[]
+  tagihan      Tagihan[]
+
+  @@map("jenis_tagihan")
+}
+
+model KelasPayment {
+  id             String        @id @default(uuid())
+  tenantId       String        @map("tenant_id")
+  kelasId        String        @map("kelas_id")
+  jenisTagihanId String        @map("jenis_tagihan_id")
+  amount         BigInt
+  periode        BillingPeriod @default(MONTHLY)
+
+  tenant       Tenant       @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  kelas        Kelas        @relation(fields: [kelasId], references: [id], onDelete: Cascade)
+  jenisTagihan JenisTagihan @relation(fields: [jenisTagihanId], references: [id], onDelete: Cascade)
+
+  @@map("kelas_payments")
+}
+
+enum BillingPeriod {
+  MONTHLY
+  YEARLY
+  ONCE
+}
+
+model Tagihan {
+  id             String        @id @default(uuid())
+  tenantId       String        @map("tenant_id")
+  santriId       String        @map("santri_id")
+  jenisTagihanId String        @map("jenis_tagihan_id")
+  tahunAjaranId  String?       @map("tahun_ajaran_id")
+  nama           String
+  amount         BigInt
+  periode        String
+  status         StatusTagihan @default(PENDING)
+  dueDate        DateTime      @map("due_date")
+  createdAt      DateTime      @default(now()) @map("created_at")
+  updatedAt      DateTime      @updatedAt @map("updated_at")
+  deletedAt      DateTime?     @map("deleted_at")
+
+  tenant       Tenant       @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  santri       Santri       @relation(fields: [santriId], references: [id], onDelete: Cascade)
+  jenisTagihan JenisTagihan @relation(fields: [jenisTagihanId], references: [id], onDelete: Cascade)
+  tahunAjaran  TahunAjaran? @relation(fields: [tahunAjaranId], references: [id])
+  transaksi    Transaksi[]
+  notifikasi   Notifikasi[]
+
+  @@map("tagihan")
+}
+
+enum StatusTagihan {
+  PENDING
+  PAID
+  OVERDUE
+  CANCELLED
+}
+
+model Transaksi {
+  id               String          @id @default(uuid())
+  tenantId         String          @map("tenant_id")
+  santriId         String          @map("santri_id")
+  tagihanId        String?         @map("tagihan_id")
+  amount           BigInt // Total paid by Santri (bill + platform_fee + gateway_fee)
+  platformFee      BigInt          @map("platform_fee") // Fee for SaaS platform
+  gatewayFee       BigInt          @map("gateway_fee") // MDR Fee for Payment Gateway
+  netAmount        BigInt          @map("net_amount") // Amount pesantren receives (amount - platform_fee - gateway_fee)
+  status           StatusTransaksi @default(PENDING)
+  paymentMethod    String?         @map("payment_method")
+  gateway          String?
+  gatewayReference String?         @map("gateway_reference")
+  gatewayResponse  Json?           @map("gateway_response")
+  paidAt           DateTime?       @map("paid_at")
+  createdAt        DateTime        @default(now()) @map("created_at")
+
+  tenant  Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  santri  Santri   @relation(fields: [santriId], references: [id], onDelete: Cascade)
+  tagihan Tagihan? @relation(fields: [tagihanId], references: [id], onDelete: Cascade)
+
+  @@map("transaksi")
+}
+
+enum StatusTransaksi {
+  PENDING
+  SUCCESS
+  FAILED
+  EXPIRED
+}
+
+model PlatformSetting {
+  id             String   @id @default(uuid())
+  transactionFee BigInt   @map("transaction_fee")
+  updatedAt      DateTime @updatedAt @map("updated_at")
+
+  @@map("platform_settings")
+}
+
+model Notifikasi {
+  id        String   @id @default(uuid())
+  tenantId  String   @map("tenant_id")
+  userId    String   @map("user_id")
+  title     String
+  message   String
+  type      String
+  isRead    Boolean  @default(false) @map("is_read")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  tenant  Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tagihan Tagihan? @relation(fields: [tagihanId], references: [id], onDelete: Cascade)
+  tagihanId String? @map("tagihan_id")
+
+  @@map("notifications")
+}
+
+model RiwayatKelas {
+  id          String   @id @default(cuid())
+  tenantId    String   @map("tenant_id")
+  santriId    String   @map("santri_id")
+  kelasLamaId String   @map("kelas_lama_id")
+  kelasBaruId String   @map("kelas_baru_id")
+  tanggal     DateTime @default(now())
+
+  tenant    Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  santri    Santri @relation(fields: [santriId], references: [id], onDelete: Cascade)
+  kelasLama Kelas  @relation("KelasLama", fields: [kelasLamaId], references: [id], onDelete: Cascade)
+  kelasBaru Kelas  @relation("KelasBaru", fields: [kelasBaruId], references: [id], onDelete: Cascade)
+
+  @@index([santriId])
+  @@index([kelasLamaId])
+  @@index([kelasBaruId])
+  @@map("riwayat_kelas")
+}
+
+model AuditLog {
+  id        String   @id @default(uuid())
+  tenantId  String   @map("tenant_id")
+  userId    String   @map("user_id")
+  action    String
+  details   String?
+  createdAt DateTime @default(now()) @map("created_at")
+
+  tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("audit_logs")
+}
