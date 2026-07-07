@@ -65,3 +65,18 @@
 - Perubahan administratif sensitif (seperti membatalkan tagihan, mengubah biaya) wajib dicatat ke dalam model `AuditLog`.
 - Untuk menjaga integritas data transaksi masa lalu, tabel utama seperti `Tenant`, `User`, `Santri`, `Kelas`, dan `Tagihan` menggunakan fitur **Soft Delete** (`deletedAt DateTime? @map("deleted_at")`).
 
+## 7. AI Agent Onboarding & Context Memory
+Setiap kali AI Agent memulai sesi percakapan baru di workspace ini, Agent **wajib**:
+1. Membaca dan memahami dokumen spesifikasi kebutuhan proyek berikut di folder [**PRD/**](file:///c:/Users/pacong2/Videos/santri-dev/PRD):
+   - [**Indeks PRD Utama (`PRD/sprint_prd.md`)**](file:///c:/Users/pacong2/Videos/santri-dev/PRD/sprint_prd.md)
+   - [**Spesifikasi Fungsional (`PRD/functional_requirements.md`)**](file:///c:/Users/pacong2/Videos/santri-dev/PRD/functional_requirements.md)
+   - [**Spesifikasi Non-Fungsional (`PRD/non_functional_requirements.md`)**](file:///c:/Users/pacong2/Videos/santri-dev/PRD/non_functional_requirements.md)
+   - [**Matriks Ketertelusuran (`PRD/traceability_matrix.md`)**](file:///c:/Users/pacong2/Videos/santri-dev/PRD/traceability_matrix.md)
+   - [**Panduan Developer (`PRD/developer_guide.md`)**](file:///c:/Users/pacong2/Videos/santri-dev/PRD/developer_guide.md)
+2. Mematuhi aturan teknis pengkodean berikut:
+   - Menggunakan referensi ESM dengan akhiran ekstensi `.js` pada penulisan path impor lokal di TypeScript.
+   - Menggunakan skema validasi masukan Zod yang terletak di `@org/shared-validation`.
+   - Menggunakan enums terpusat di `@org/shared-enums` dan di-reexport dari file entitas masing-masing.
+   - Menghindari konversi JSON bawaan langsung pada data model yang memiliki tipe data `bigint` (gunakan helper serializer dari `@org/shared-utils`).
+
+

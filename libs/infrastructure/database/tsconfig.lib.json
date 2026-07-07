@@ -9,7 +9,23 @@
     "types": ["node", "vite/client"]
   },
   "include": ["src/**/*.ts"],
-  "references": [],
+  "references": [
+    {
+      "path": "../../domain/user/tsconfig.lib.json"
+    },
+    {
+      "path": "../../domain/transaksi/tsconfig.lib.json"
+    },
+    {
+      "path": "../../domain/tagihan/tsconfig.lib.json"
+    },
+    {
+      "path": "../../domain/santri/tsconfig.lib.json"
+    },
+    {
+      "path": "../../domain/tenant/tsconfig.lib.json"
+    }
+  ],
   "exclude": [
     "vite.config.ts",
     "vite.config.mts",

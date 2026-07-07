@@ -15,8 +15,13 @@
       "default": "./dist/index.js"
     }
   },
-  "dependencies": {},
-  "devDependencies": {
-    "dotenv": "^17.4.2"
+  "dependencies": {
+    "@org/domain-tenant": "workspace:*",
+    "@org/domain-santri": "workspace:*",
+    "@org/domain-tagihan": "workspace:*",
+    "@org/domain-transaksi": "workspace:*",
+    "@org/domain-user": "workspace:*",
+    "dotenv": "^17.4.2",
+    "prisma": "^7.8.0"
   }
 }

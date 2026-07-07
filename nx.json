@@ -91,5 +91,8 @@
     "test": {
       "dependsOn": ["^build"]
     }
+  },
+  "sync": {
+    "applyChanges": true
   }
 }

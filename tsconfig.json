@@ -17,6 +17,45 @@
     },
     {
       "path": "./libs/domain/tenant"
+    },
+    {
+      "path": "./libs/domain/santri"
+    },
+    {
+      "path": "./libs/domain/tagihan"
+    },
+    {
+      "path": "./libs/domain/transaksi"
+    },
+    {
+      "path": "./libs/domain/user"
+    },
+    {
+      "path": "./libs/shared/types"
+    },
+    {
+      "path": "./libs/shared/enums"
+    },
+    {
+      "path": "./libs/shared/constants"
+    },
+    {
+      "path": "./libs/shared/utils"
+    },
+    {
+      "path": "./libs/shared/validation"
+    },
+    {
+      "path": "./libs/infrastructure/auth"
+    },
+    {
+      "path": "./libs/infrastructure/mailer"
+    },
+    {
+      "path": "./libs/infrastructure/notification"
+    },
+    {
+      "path": "./libs/infrastructure/invoice"
     }
   ]
 }

@@ -220,6 +220,7 @@ model Transaksi {
   platformFee      BigInt          @map("platform_fee") // Fee for SaaS platform
   gatewayFee       BigInt          @map("gateway_fee") // MDR Fee for Payment Gateway
   netAmount        BigInt          @map("net_amount") // Amount pesantren receives (amount - platform_fee - gateway_fee)
+  orderId          String          @unique @map("order_id")
   status           StatusTransaksi @default(PENDING)
   paymentMethod    String?         @map("payment_method")
   gateway          String?
