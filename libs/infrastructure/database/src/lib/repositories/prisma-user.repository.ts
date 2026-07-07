@@ -13,7 +13,7 @@ export class PrismaUserRepository implements IUserRepository {
     };
   }
 
-  async findByEmail(email: string): Promise<User | null> {
+  async findByEmail(email: string): Promise<(User & { passwordHash: string }) | null> {
     const result = await prisma.user.findUnique({
       where: { email, deletedAt: null },
     });
@@ -21,6 +21,7 @@ export class PrismaUserRepository implements IUserRepository {
     return {
       ...result,
       platformRole: result.platformRole as PlatformRole | null,
+      passwordHash: result.password,
     };
   }
 

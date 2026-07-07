@@ -22,8 +22,16 @@ export function addDays(date: Date, days: number): Date {
   return newDate;
 }
 
-export function generateOrderId(prefix = 'TX'): string {
+export function generateOrderId(tenantId: string, prefix = 'TX'): string {
   const timestamp = Date.now();
   const random = Math.floor(1000 + Math.random() * 9000);
-  return `${prefix}-${timestamp}-${random}`;
+  return `${prefix}_${tenantId}_${timestamp}_${random}`;
+}
+
+export function getTenantIdFromOrderId(orderId: string): string {
+  const parts = orderId.split('_');
+  if (parts.length < 3) {
+    throw new Error('Invalid order ID format');
+  }
+  return parts[1];
 }

@@ -16,6 +16,8 @@
     }
   },
   "dependencies": {
-    "@org/shared-enums": "workspace:*"
+    "@org/shared-enums": "workspace:*",
+    "@org/domain-user": "workspace:*",
+    "@org/shared-utils": "workspace:*"
   }
 }

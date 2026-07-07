@@ -13,6 +13,18 @@
   "exclude": ["eslint.config.js", "eslint.config.cjs", "eslint.config.mjs"],
   "references": [
     {
+      "path": "../../libs/infrastructure/notification/tsconfig.lib.json"
+    },
+    {
+      "path": "../../libs/infrastructure/payment-gateway/tsconfig.lib.json"
+    },
+    {
+      "path": "../../libs/domain/tagihan/tsconfig.lib.json"
+    },
+    {
+      "path": "../../libs/domain/transaksi/tsconfig.lib.json"
+    },
+    {
       "path": "../../libs/infrastructure/database/tsconfig.lib.json"
     }
   ]

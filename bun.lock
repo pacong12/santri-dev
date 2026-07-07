@@ -80,6 +80,10 @@
         "@nestjs/core": "^11.0.0",
         "@nestjs/platform-express": "^11.0.0",
         "@org/database": "workspace:*",
+        "@org/domain-tagihan": "workspace:*",
+        "@org/domain-transaksi": "workspace:*",
+        "@org/notification": "workspace:*",
+        "@org/payment-gateway": "workspace:*",
         "reflect-metadata": "^0.2.0",
         "rxjs": "^7.8.0",
         "tslib": "^2.3.0",
@@ -106,6 +110,7 @@
       "name": "@org/domain-tagihan",
       "version": "0.0.1",
       "dependencies": {
+        "@org/domain-user": "workspace:*",
         "@org/shared-enums": "workspace:*",
       },
     },
@@ -113,14 +118,18 @@
       "name": "@org/domain-tenant",
       "version": "0.0.1",
       "dependencies": {
+        "@org/domain-user": "workspace:*",
         "@org/shared-enums": "workspace:*",
+        "@org/shared-utils": "workspace:*",
       },
     },
     "libs/domain/transaksi": {
       "name": "@org/domain-transaksi",
       "version": "0.0.1",
       "dependencies": {
+        "@org/domain-tagihan": "workspace:*",
         "@org/shared-enums": "workspace:*",
+        "@org/shared-utils": "workspace:*",
       },
     },
     "libs/domain/user": {
