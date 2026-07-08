@@ -56,6 +56,9 @@
     },
     {
       "path": "./libs/infrastructure/invoice"
+    },
+    {
+      "path": "./libs/shared/ui"
     }
   ]
 }
