@@ -9,6 +9,7 @@
       "import": "./src/index.ts",
       "default": "./src/index.ts"
     },
+    "./global.css": "./src/global.css",
     "./package.json": "./package.json"
   },
   "dependencies": {
@@ -25,6 +26,7 @@
   "devDependencies": {
     "autoprefixer": "^10.5.2",
     "postcss": "^8.5.16",
+    "@tailwindcss/postcss": "^4.3.2",
     "tailwindcss": "^4.3.2",
     "tailwindcss-animate": "^1.0.7"
   }

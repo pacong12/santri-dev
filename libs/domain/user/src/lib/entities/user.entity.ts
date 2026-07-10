@@ -18,4 +18,8 @@ export interface Membership {
   tenantId: string;
   role: TenantRole;
   createdAt: Date;
+  tenant?: {
+    id: string;
+    name: string;
+  };
 }

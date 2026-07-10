@@ -2,13 +2,19 @@
   "name": "@org/source",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "db:push": "cd libs/infrastructure/database && bunx prisma db push",
+    "db:studio": "cd libs/infrastructure/database && bunx prisma studio",
+    "db:migrate": "cd libs/infrastructure/database && bunx prisma migrate dev",
+    "prisma": "cd libs/infrastructure/database && bunx prisma"
+  },
   "private": true,
   "dependencies": {
     "@nestjs/common": "^11.0.0",
     "@nestjs/core": "^11.0.0",
     "@nestjs/platform-express": "^11.0.0",
     "@prisma/client": "^7.8.0",
+    "@prisma/client-runtime-utils": "^7.8.0",
     "axios": "^1.6.0",
     "bcryptjs": "^3.0.3",
     "jsonwebtoken": "^9.0.3",

@@ -6,6 +6,17 @@
     "next": "~16.1.6",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "@org/database": "workspace:*"
+    "@org/ui": "workspace:*",
+    "@org/shared-types": "workspace:*",
+    "@org/shared-validation": "workspace:*",
+    "@org/domain-user": "workspace:*",
+    "@org/shared-enums": "workspace:*"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.5.2",
+    "postcss": "^8.5.16",
+    "@tailwindcss/postcss": "^4.3.2",
+    "tailwindcss": "^4.3.2",
+    "tailwindcss-animate": "^1.0.7"
   }
 }

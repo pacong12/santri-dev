@@ -32,7 +32,8 @@
     "src/**/*.jsx",
     "../../app/backoffice/.next/types/**/*.ts",
     "../../dist/app/backoffice/.next/types/**/*.ts",
-    "next-env.d.ts"
+    "next-env.d.ts",
+    "index.d.ts"
   ],
   "exclude": [
     "out-tsc",
@@ -49,7 +50,19 @@
   ],
   "references": [
     {
-      "path": "../../libs/infrastructure/database"
+      "path": "../../libs/shared/enums"
+    },
+    {
+      "path": "../../libs/domain/user"
+    },
+    {
+      "path": "../../libs/shared/validation"
+    },
+    {
+      "path": "../../libs/shared/types"
+    },
+    {
+      "path": "../../libs/shared/ui"
     }
   ]
 }

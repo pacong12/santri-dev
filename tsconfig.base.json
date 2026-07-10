@@ -16,6 +16,25 @@
     "skipLibCheck": true,
     "strict": true,
     "target": "es2022",
-    "customConditions": ["@org/source"]
+    "customConditions": ["@org/source"],
+    "paths": {
+      "@org/shared-types": ["./libs/shared/types/src/index.ts"],
+      "@org/shared-enums": ["./libs/shared/enums/src/index.ts"],
+      "@org/shared-constants": ["./libs/shared/constants/src/index.ts"],
+      "@org/shared-utils": ["./libs/shared/utils/src/index.ts"],
+      "@org/shared-validation": ["./libs/shared/validation/src/index.ts"],
+      "@org/ui": ["./libs/shared/ui/src/index.ts"],
+      "@org/database": ["./libs/infrastructure/database/src/index.ts"],
+      "@org/auth": ["./libs/infrastructure/auth/src/index.ts"],
+      "@org/mailer": ["./libs/infrastructure/mailer/src/index.ts"],
+      "@org/notification": ["./libs/infrastructure/notification/src/index.ts"],
+      "@org/invoice": ["./libs/infrastructure/invoice/src/index.ts"],
+      "@org/payment-gateway": ["./libs/infrastructure/payment-gateway/src/index.ts"],
+      "@org/domain-user": ["./libs/domain/user/src/index.ts"],
+      "@org/domain-tenant": ["./libs/domain/tenant/src/index.ts"],
+      "@org/domain-santri": ["./libs/domain/santri/src/index.ts"],
+      "@org/domain-tagihan": ["./libs/domain/tagihan/src/index.ts"],
+      "@org/domain-transaksi": ["./libs/domain/transaksi/src/index.ts"]
+    }
   }
 }

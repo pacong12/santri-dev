@@ -1,4 +1,5 @@
 import './global.css';
+import { AuthProvider } from '../lib/context/auth-context';
 
 export const metadata = {
   title: 'Welcome to backoffice',
@@ -12,7 +13,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <AuthProvider>{children}</AuthProvider>
+      </body>
     </html>
   );
 }

@@ -71,10 +71,20 @@ export class PrismaUserRepository implements IUserRepository {
   async getMemberships(userId: string): Promise<Membership[]> {
     const results = await prisma.membership.findMany({
       where: { userId },
+      include: {
+        tenant: true,
+      },
     });
     return results.map(r => ({
-      ...r,
+      id: r.id,
+      userId: r.userId,
+      tenantId: r.tenantId,
       role: r.role as TenantRole,
+      createdAt: r.createdAt,
+      tenant: {
+        id: r.tenant.id,
+        name: r.tenant.name,
+      },
     }));
   }
 
