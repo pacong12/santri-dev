@@ -65,3 +65,7 @@ export { Badge, badgeVariants } from './components/ui/badge';
 export { Separator } from './components/ui/separator';
 
 export { Skeleton } from './components/ui/skeleton';
+
+export { LoginForm } from './components/login-form';
+
+export { SignupForm } from './components/signup-form';

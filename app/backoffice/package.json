@@ -10,7 +10,8 @@
     "@org/shared-types": "workspace:*",
     "@org/shared-validation": "workspace:*",
     "@org/domain-user": "workspace:*",
-    "@org/shared-enums": "workspace:*"
+    "@org/shared-enums": "workspace:*",
+    "lucide-react": "^1.23.0"
   },
   "devDependencies": {
     "autoprefixer": "^10.5.2",

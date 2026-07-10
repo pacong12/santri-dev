@@ -23,6 +23,8 @@
     "@org/domain-user": "workspace:*",
     "dotenv": "^17.4.2",
     "prisma": "^7.8.0",
-    "@prisma/client": "^7.8.0"
+    "@prisma/client": "^7.8.0",
+    "@prisma/adapter-pg": "^7.8.0",
+    "pg": "^8.11.0"
   }
 }

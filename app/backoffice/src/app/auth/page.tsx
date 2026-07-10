@@ -4,17 +4,8 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '../../lib/context/auth-context';
 import { AuthService } from '../../lib/services/auth.service';
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-  CardContent,
-  CardFooter,
-  Button,
-  Input,
-  Label,
-} from '@org/ui';
+import { LoginForm, SignupForm } from '@org/ui';
+import { GalleryVerticalEnd } from 'lucide-react';
 
 export default function AuthPage() {
   const router = useRouter();
@@ -48,12 +39,12 @@ export default function AuthPage() {
       const data = await AuthService.login({ email, password });
       login(data.token, data.user, data.memberships);
 
-      setSuccess('Login successful! Redirecting...');
+      setSuccess('Masuk berhasil! Mengalihkan...');
       setTimeout(() => {
         router.push('/');
       }, 1500);
     } catch (err: unknown) {
-      setError((err as Error).message || 'An unexpected error occurred.');
+      setError((err as Error).message || 'Terjadi kesalahan saat masuk.');
     } finally {
       setIsLoading(false);
     }
@@ -72,161 +63,106 @@ export default function AuthPage() {
         name: name || null,
       });
 
-      setSuccess('Registration successful! Swapping to login...');
+      setSuccess('Registrasi berhasil! Beralih ke halaman masuk...');
       setTimeout(() => {
         resetForm();
         setActiveTab('login');
       }, 1500);
     } catch (err: unknown) {
-      setError((err as Error).message || 'An unexpected error occurred.');
+      setError((err as Error).message || 'Terjadi kesalahan saat registrasi.');
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-zinc-900 to-indigo-950 p-4 text-white font-sans">
-      <div className="w-full max-w-md">
-        <div className="flex justify-center mb-8 flex-col items-center">
-          <div className="w-12 h-12 rounded-xl bg-indigo-600 flex items-center justify-center font-bold text-xl shadow-lg shadow-indigo-500/20 mb-3">
-            SP
+    <div className="grid min-h-screen lg:grid-cols-2 bg-zinc-950 text-white font-sans">
+      <div className="flex flex-col gap-4 p-6 md:p-10 justify-between">
+        <div className="flex justify-center gap-2 md:justify-start">
+          <a href="#" className="flex items-center gap-2 font-medium">
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-indigo-600 text-white">
+              <GalleryVerticalEnd className="size-5" />
+            </div>
+            <span className="font-semibold text-lg tracking-tight bg-gradient-to-r from-indigo-200 to-white bg-clip-text text-transparent">
+              SaaS Pesantren
+            </span>
+          </a>
+        </div>
+
+        <div className="flex flex-1 items-center justify-center">
+          <div className="w-full max-w-sm space-y-6">
+            {error && (
+              <div className="p-3 bg-red-500/10 border border-red-500/20 text-red-400 rounded-xl text-xs font-medium">
+                {error}
+              </div>
+            )}
+            {success && (
+              <div className="p-3 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded-xl text-xs font-medium">
+                {success}
+              </div>
+            )}
+
+            {activeTab === 'login' ? (
+              <LoginForm
+                email={email}
+                setEmail={setEmail}
+                password={password}
+                setPassword={setPassword}
+                onSubmit={handleLogin}
+                onSwitchToRegister={() => {
+                  resetForm();
+                  setActiveTab('register');
+                }}
+                isLoading={isLoading}
+              />
+            ) : (
+              <SignupForm
+                name={name}
+                setName={setName}
+                username={username}
+                setUsername={setUsername}
+                email={email}
+                setEmail={setEmail}
+                password={password}
+                setPassword={setPassword}
+                onSubmit={handleRegister}
+                onSwitchToLogin={() => {
+                  resetForm();
+                  setActiveTab('login');
+                }}
+                isLoading={isLoading}
+              />
+            )}
           </div>
-          <h1 className="text-2xl font-bold tracking-tight bg-gradient-to-r from-indigo-200 to-white bg-clip-text text-transparent">
-            SaaS Pembayaran Pesantren
-          </h1>
-          <p className="text-zinc-400 text-sm mt-1">Platform Administrasi Finansial Mandiri</p>
         </div>
 
-        <div className="bg-zinc-900/40 backdrop-blur-md border border-zinc-800 rounded-2xl p-1 mb-6 flex">
-          <button
-            onClick={() => {
-              resetForm();
-              setActiveTab('login');
-            }}
-            className={`flex-1 py-2 text-sm font-medium rounded-xl transition-all duration-200 ${
-              activeTab === 'login'
-                ? 'bg-indigo-600 text-white shadow-md shadow-indigo-600/10'
-                : 'text-zinc-400 hover:text-white'
-            }`}
-          >
-            Masuk
-          </button>
-          <button
-            onClick={() => {
-              resetForm();
-              setActiveTab('register');
-            }}
-            className={`flex-1 py-2 text-sm font-medium rounded-xl transition-all duration-200 ${
-              activeTab === 'register'
-                ? 'bg-indigo-600 text-white shadow-md shadow-indigo-600/10'
-                : 'text-zinc-400 hover:text-white'
-            }`}
-          >
-            Daftar Akun
-          </button>
+        <div className="text-center text-xs text-zinc-500">
+          Dengan melanjutkan, Anda menyetujui <a href="#" className="underline">Ketentuan Layanan</a> dan <a href="#" className="underline">Kebijakan Privasi</a> kami.
         </div>
+      </div>
 
-        <Card className="bg-zinc-900/60 backdrop-blur-lg border-zinc-800 text-white shadow-2xl">
-          <CardHeader>
-            <CardTitle className="text-xl font-semibold">
-              {activeTab === 'login' ? 'Selamat Datang Kembali' : 'Registrasi Akun Baru'}
-            </CardTitle>
-            <CardDescription className="text-zinc-400">
-              {activeTab === 'login'
-                ? 'Silakan masuk untuk mengelola pembayaran pesantren'
-                : 'Daftarkan akun administrator global Anda'}
-            </CardDescription>
-          </CardHeader>
-
-          <form onSubmit={activeTab === 'login' ? handleLogin : handleRegister}>
-            <CardContent className="space-y-4">
-              {error && (
-                <div className="p-3 bg-red-500/10 border border-red-500/20 text-red-400 rounded-xl text-sm font-medium">
-                  {error}
-                </div>
-              )}
-              {success && (
-                <div className="p-3 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded-xl text-sm font-medium">
-                  {success}
-                </div>
-              )}
-
-              {activeTab === 'register' && (
-                <>
-                  <div className="space-y-2">
-                    <Label htmlFor="name" className="text-sm font-medium text-zinc-300">
-                      Nama Lengkap
-                    </Label>
-                    <Input
-                      id="name"
-                      placeholder="Masukkan nama lengkap"
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                      className="bg-zinc-950/50 border-zinc-800 focus:border-indigo-500 focus:ring-indigo-500 text-white placeholder-zinc-500 rounded-xl"
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="username" className="text-sm font-medium text-zinc-300">
-                      Username
-                    </Label>
-                    <Input
-                      id="username"
-                      required
-                      placeholder="Masukkan username"
-                      value={username}
-                      onChange={(e) => setUsername(e.target.value)}
-                      className="bg-zinc-950/50 border-zinc-800 focus:border-indigo-500 focus:ring-indigo-500 text-white placeholder-zinc-500 rounded-xl"
-                    />
-                  </div>
-                </>
-              )}
-
-              <div className="space-y-2">
-                <Label htmlFor="email" className="text-sm font-medium text-zinc-300">
-                  Email Resmi
-                </Label>
-                <Input
-                  id="email"
-                  type="email"
-                  required
-                  placeholder="name@pesantren.com"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="bg-zinc-950/50 border-zinc-800 focus:border-indigo-500 focus:ring-indigo-500 text-white placeholder-zinc-500 rounded-xl"
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="password" className="text-sm font-medium text-zinc-300">
-                  Password
-                </Label>
-                <Input
-                  id="password"
-                  type="password"
-                  required
-                  placeholder="••••••••"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="bg-zinc-950/50 border-zinc-800 focus:border-indigo-500 focus:ring-indigo-500 text-white placeholder-zinc-500 rounded-xl"
-                />
-              </div>
-            </CardContent>
-
-            <CardFooter className="pt-2">
-              <Button
-                type="submit"
-                disabled={isLoading}
-                className="w-full bg-indigo-600 hover:bg-indigo-500 text-white py-2 rounded-xl font-medium shadow-md shadow-indigo-600/10 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {isLoading
-                  ? 'Memproses...'
-                  : activeTab === 'login'
-                  ? 'Masuk Aplikasi'
-                  : 'Daftar Sekarang'}
-              </Button>
-            </CardFooter>
-          </form>
-        </Card>
+      <div className="relative hidden bg-zinc-950 lg:block border-l border-zinc-900 overflow-hidden">
+        {/* Beautiful premium grid and gradient effect */}
+        <div className="absolute inset-0 bg-gradient-to-br from-indigo-950 via-zinc-950 to-slate-950" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:32px_32px]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(99,102,241,0.08),transparent_70%)]" />
+        
+        <div className="absolute inset-0 flex flex-col justify-between p-12 z-10">
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center font-bold text-sm text-white">
+              SP
+            </div>
+            <span className="font-semibold text-lg text-white tracking-tight">SaaS Pembayaran Pesantren</span>
+          </div>
+          <div className="space-y-4 max-w-md">
+            <blockquote className="space-y-2">
+              <p className="text-xl text-zinc-200 font-light leading-relaxed">
+                &ldquo;Platform administrasi finansial mandiri untuk efisiensi, akuntabilitas, dan kemudahan pembayaran biaya pendidikan santri.&rdquo;
+              </p>
+              <footer className="text-sm text-zinc-500 font-mono">— Tim Pengembang Sistem Pembayaran</footer>
+            </blockquote>
+          </div>
+        </div>
       </div>
     </div>
   );

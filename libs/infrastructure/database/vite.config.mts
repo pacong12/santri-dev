@@ -2,6 +2,7 @@
 import { defineConfig } from 'vite';
 import dts from 'vite-plugin-dts';
 import * as path from 'path';
+import { cpSync } from 'fs';
 
 export default defineConfig(() => ({
   root: import.meta.dirname,
@@ -11,6 +12,20 @@ export default defineConfig(() => ({
       entryRoot: 'src',
       tsconfigPath: path.join(import.meta.dirname, 'tsconfig.lib.json'),
     }),
+    {
+      name: 'copy-generated',
+      closeBundle() {
+        try {
+          cpSync(
+            path.resolve(import.meta.dirname, 'src/generated'),
+            path.resolve(import.meta.dirname, 'dist/generated'),
+            { recursive: true }
+          );
+        } catch (err) {
+          console.error('Gagal menyalin folder generated:', err);
+        }
+      }
+    }
   ],
   // Uncomment this if you are using workers.
   // worker: {
@@ -35,14 +50,15 @@ export default defineConfig(() => ({
       // Don't forget to update your package.json as well.
       formats: ['es' as const],
     },
-    rolldownOptions: {
-      // External packages that should not be bundled into your library.
-      external: [
-        '@prisma/client',
-        '@prisma/client-runtime-utils',
-        /^@prisma\/.*/,
-      ],
-    },
+      rolldownOptions: {
+        // External packages that should not be bundled into your library.
+        external: [
+          '@prisma/client',
+          '@prisma/client-runtime-utils',
+          /^@prisma\/.*/,
+          /generated\/prisma/,
+        ],
+      },
   },
   test: {
     name: '@org/database',
