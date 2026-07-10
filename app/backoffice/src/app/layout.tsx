@@ -1,5 +1,6 @@
 import './global.css';
 import { AuthProvider } from '../lib/context/auth-context';
+import { ThemeProvider } from '../components/theme-provider';
 
 export const metadata = {
   title: 'Welcome to backoffice',
@@ -12,9 +13,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body>
-        <AuthProvider>{children}</AuthProvider>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <AuthProvider>{children}</AuthProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

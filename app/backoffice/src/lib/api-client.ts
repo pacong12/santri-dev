@@ -1,6 +1,6 @@
 import { ApiResponse } from '@org/shared-types';
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000/api';
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3333/api';
 
 export class UnauthorizedError extends Error {
   constructor(message = 'Session expired or unauthorized') {

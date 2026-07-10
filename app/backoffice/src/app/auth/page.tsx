@@ -83,9 +83,6 @@ export default function AuthPage() {
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-indigo-600 text-white">
               <GalleryVerticalEnd className="size-5" />
             </div>
-            <span className="font-semibold text-lg tracking-tight bg-gradient-to-r from-indigo-200 to-white bg-clip-text text-transparent">
-              SaaS Pesantren
-            </span>
           </a>
         </div>
 
@@ -142,27 +139,12 @@ export default function AuthPage() {
       </div>
 
       <div className="relative hidden bg-zinc-950 lg:block border-l border-zinc-900 overflow-hidden">
-        {/* Beautiful premium grid and gradient effect */}
-        <div className="absolute inset-0 bg-gradient-to-br from-indigo-950 via-zinc-950 to-slate-950" />
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:32px_32px]" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(99,102,241,0.08),transparent_70%)]" />
-        
-        <div className="absolute inset-0 flex flex-col justify-between p-12 z-10">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center font-bold text-sm text-white">
-              SP
-            </div>
-            <span className="font-semibold text-lg text-white tracking-tight">SaaS Pembayaran Pesantren</span>
-          </div>
-          <div className="space-y-4 max-w-md">
-            <blockquote className="space-y-2">
-              <p className="text-xl text-zinc-200 font-light leading-relaxed">
-                &ldquo;Platform administrasi finansial mandiri untuk efisiensi, akuntabilitas, dan kemudahan pembayaran biaya pendidikan santri.&rdquo;
-              </p>
-              <footer className="text-sm text-zinc-500 font-mono">— Tim Pengembang Sistem Pembayaran</footer>
-            </blockquote>
-          </div>
-        </div>
+        {/* Background Image illustration */}
+        <img
+          src="/auth-bg.png"
+          alt="Illustration"
+          className="absolute inset-0 w-full h-full object-cover opacity-90"
+        />
       </div>
     </div>
   );
