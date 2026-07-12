@@ -3,11 +3,16 @@
 import React, { useEffect } from 'react';
 import { useAuth } from '../lib/context/auth-context';
 import { useRouter } from 'next/navigation';
-import { Navbar } from './navbar';
+import { SidebarProvider, AppSidebar, SidebarInset, SiteHeader } from '@org/ui';
 
 export const PageLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const { isAuthenticated, isLoading } = useAuth();
+  const { isAuthenticated, isLoading, user, activeRole, logout } = useAuth();
   const router = useRouter();
+
+  const handleLogout = () => {
+    logout();
+    router.push('/auth');
+  };
 
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
@@ -30,12 +35,26 @@ export const PageLayout: React.FC<{ children: React.ReactNode }> = ({ children }
     return null; // Prevents flashing the dashboard before redirecting
   }
 
+  const sidebarRole = user?.platformRole === 'SUPERADMIN' ? 'SUPERADMIN' : (activeRole as 'OWNER' | 'ADMIN' | 'SANTRI' | null);
+
   return (
-    <div className="min-h-screen bg-zinc-950 text-white flex flex-col font-sans">
-      <Navbar />
-      <main className="flex-1 p-6 max-w-7xl mx-auto w-full">
-        {children}
-      </main>
+    <div className="[--header-height:3.5rem] min-h-screen bg-zinc-950 text-white flex flex-col font-sans w-full">
+      <SidebarProvider className="flex flex-col flex-1">
+        <SiteHeader />
+        <div className="flex flex-1 min-h-0">
+          {sidebarRole && sidebarRole !== 'SANTRI' && (
+            <AppSidebar
+              userRole={sidebarRole}
+              name={user?.name || user?.username || ''}
+              email={user?.email || ''}
+              onLogout={handleLogout}
+            />
+          )}
+          <SidebarInset className="bg-transparent flex-1 p-6 max-w-7xl mx-auto w-full overflow-x-hidden">
+            {children}
+          </SidebarInset>
+        </div>
+      </SidebarProvider>
     </div>
   );
 };

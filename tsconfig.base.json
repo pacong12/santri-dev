@@ -34,7 +34,8 @@
       "@org/domain-tenant": ["./libs/domain/tenant/src/index.ts"],
       "@org/domain-santri": ["./libs/domain/santri/src/index.ts"],
       "@org/domain-tagihan": ["./libs/domain/tagihan/src/index.ts"],
-      "@org/domain-transaksi": ["./libs/domain/transaksi/src/index.ts"]
+      "@org/domain-transaksi": ["./libs/domain/transaksi/src/index.ts"],
+      "@org/domain-platform": ["./libs/domain/platform/src/index.ts"]
     }
   }
 }

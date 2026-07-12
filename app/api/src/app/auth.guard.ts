@@ -41,6 +41,21 @@ export class TenantGuard implements CanActivate {
   }
 }
 
+@Injectable()
+export class SuperadminGuard implements CanActivate {
+  async canActivate(context: ExecutionContext): Promise<boolean> {
+    const request = context.switchToHttp().getRequest();
+    const user = request.user;
+    if (!user) {
+      throw new UnauthorizedException('Authentication required');
+    }
+    if (user.platformRole !== 'SUPERADMIN') {
+      throw new UnauthorizedException('Superadmin privileges required');
+    }
+    return true;
+  }
+}
+
 export const CurrentUser = createParamDecorator(
   (data: unknown, ctx: ExecutionContext) => {
     const request = ctx.switchToHttp().getRequest();

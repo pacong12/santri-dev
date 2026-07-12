@@ -21,10 +21,12 @@
     "@org/domain-tagihan": "workspace:*",
     "@org/domain-transaksi": "workspace:*",
     "@org/domain-user": "workspace:*",
+    "@org/domain-platform": "workspace:*",
     "dotenv": "^17.4.2",
     "prisma": "^7.8.0",
     "@prisma/client": "^7.8.0",
     "@prisma/adapter-pg": "^7.8.0",
-    "pg": "^8.11.0"
+    "pg": "^8.11.0",
+    "bcryptjs": "^3.0.3"
   }
 }

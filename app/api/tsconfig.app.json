@@ -13,6 +13,12 @@
   "exclude": ["eslint.config.js", "eslint.config.cjs", "eslint.config.mjs"],
   "references": [
     {
+      "path": "../../libs/shared/utils/tsconfig.lib.json"
+    },
+    {
+      "path": "../../libs/shared/validation/tsconfig.lib.json"
+    },
+    {
       "path": "../../libs/shared/types/tsconfig.lib.json"
     },
     {
@@ -22,13 +28,16 @@
       "path": "../../libs/infrastructure/auth/tsconfig.lib.json"
     },
     {
-      "path": "../../libs/shared/validation/tsconfig.lib.json"
-    },
-    {
       "path": "../../libs/infrastructure/notification/tsconfig.lib.json"
     },
     {
       "path": "../../libs/infrastructure/payment-gateway/tsconfig.lib.json"
+    },
+    {
+      "path": "../../libs/domain/platform/tsconfig.lib.json"
+    },
+    {
+      "path": "../../libs/domain/tenant/tsconfig.lib.json"
     },
     {
       "path": "../../libs/domain/tagihan/tsconfig.lib.json"

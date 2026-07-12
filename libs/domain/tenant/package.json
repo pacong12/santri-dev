@@ -18,6 +18,7 @@
   "dependencies": {
     "@org/shared-enums": "workspace:*",
     "@org/domain-user": "workspace:*",
-    "@org/shared-utils": "workspace:*"
+    "@org/shared-utils": "workspace:*",
+    "@org/domain-transaksi": "workspace:*"
   }
 }

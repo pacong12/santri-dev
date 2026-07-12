@@ -5,3 +5,4 @@ export * from './lib/services/payment-gateway.service.js';
 export * from './lib/use-cases/create-checkout.use-case.js';
 export * from './lib/use-cases/process-webhook.use-case.js';
 export * from './lib/use-cases/get-transaction-history.use-case.js';
+export * from './lib/use-cases/get-global-transactions.use-case.js';

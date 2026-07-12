@@ -81,4 +81,54 @@ export class PrismaTenantRepository implements ITenantRepository {
       status: result.status as TenantStatus,
     };
   }
+
+  async findManyActive(): Promise<Tenant[]> {
+    const results = await prisma.tenant.findMany({
+      where: { deletedAt: null },
+      orderBy: { createdAt: 'desc' },
+    });
+    return results.map(r => ({
+      ...r,
+      status: r.status as TenantStatus,
+    }));
+  }
+
+  async countActive(): Promise<number> {
+    return prisma.tenant.count({
+      where: { status: TenantStatus.ACTIVE, deletedAt: null },
+    });
+  }
+
+  async countAll(): Promise<number> {
+    return prisma.tenant.count({
+      where: { deletedAt: null },
+    });
+  }
+
+  async getTenantMetrics(id: string): Promise<{ santriCount: number; kelasCount: number; tagihanCount: number }> {
+    const [santriCount, kelasCount, tagihanCount] = await Promise.all([
+      prisma.santri.count({
+        where: { tenantId: id, deletedAt: null },
+      }),
+      prisma.kelas.count({
+        where: { tenantId: id, deletedAt: null },
+      }),
+      prisma.tagihan.count({
+        where: { tenantId: id, deletedAt: null },
+      }),
+    ]);
+    return { santriCount, kelasCount, tagihanCount };
+  }
+
+  async findRecentTenants(take: number): Promise<Tenant[]> {
+    const results = await prisma.tenant.findMany({
+      where: { deletedAt: null },
+      orderBy: { createdAt: 'desc' },
+      take,
+    });
+    return results.map(r => ({
+      ...r,
+      status: r.status as TenantStatus,
+    }));
+  }
 }

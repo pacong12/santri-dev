@@ -2,6 +2,11 @@
   "name": "@org/backoffice",
   "version": "0.0.1",
   "private": true,
+  "scripts": {
+    "dev": "next dev -p 3000",
+    "build": "next build",
+    "start": "next start -p 3000"
+  },
   "dependencies": {
     "next": "~16.1.6",
     "react": "^19.0.0",
