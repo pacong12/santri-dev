@@ -85,6 +85,7 @@
     "@org/domain-transaksi": "workspace:*",
     "@org/domain-tagihan": "workspace:*",
     "@org/domain-tenant": "workspace:*",
+    "@org/domain-santri": "workspace:*",
     "@org/domain-platform": "workspace:*",
     "@org/payment-gateway": "workspace:*",
     "@org/notification": "workspace:*",

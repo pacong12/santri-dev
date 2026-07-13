@@ -89,6 +89,7 @@
         "@org/auth": "workspace:*",
         "@org/database": "workspace:*",
         "@org/domain-platform": "workspace:*",
+        "@org/domain-santri": "workspace:*",
         "@org/domain-tagihan": "workspace:*",
         "@org/domain-tenant": "workspace:*",
         "@org/domain-transaksi": "workspace:*",

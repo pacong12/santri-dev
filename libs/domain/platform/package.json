@@ -15,9 +15,7 @@
       "default": "./dist/index.js"
     }
   },
-  "nx": {
-    "name": "domain-platform"
-  },
+
   "dependencies": {
     "@org/shared-enums": "workspace:*",
     "@org/shared-utils": "workspace:*",

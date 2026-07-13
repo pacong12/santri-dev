@@ -51,3 +51,14 @@ export const CreateTransaksiSchema = z.object({
   paymentMethod: z.string().optional().nullable(),
   gateway: z.string().optional().nullable(),
 });
+
+export const CreateKelasSchema = z.object({
+  name: z.string().min(1).max(50),
+  tahunAjaranId: z.string().uuid(),
+});
+
+export const CreateTahunAjaranSchema = z.object({
+  name: z.string().min(4).max(20),
+  aktif: z.boolean().default(true),
+});
+
